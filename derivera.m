@@ -7,10 +7,10 @@ function Y=derivera(f, a, d)
     % Y = [yn ya]
     % yn vektor med de numreriskt beräknade derivatorna
     % ya vektor med de analytiskt beräknade derivatorna
-    %yn = numeriskt(f, a, d);
-    yn = numeriskt2(f, a, d);
+    yn = numeriskt(f, a, d);
+    yn2 = numeriskt2(f, a, d);
     ya = analytiskt(f, a);
-    Y = [yn ; ya];
+    Y = [yn; yn2 ; ya];
 end
 
 %Derivera numeriskt
