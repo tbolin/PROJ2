@@ -1,1 +1,1 @@
-Or don't. I'm just a file, I dont't care.
+Or don't. I'm just a file, I don't care.
