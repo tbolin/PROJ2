@@ -16,22 +16,22 @@ running=1;
 
 while running
     menytext = ['Numerisk och symbolisk derivering/integral' char(10) ...
-'f(x)=' funktion char(10) 'Plotintervall [' num2str(xmin) ', ' ... 
-num2str(xmax) ']' char(10) ...
-'Välj från menyn:']
+    'f(x)=' funktion char(10) 'Plotintervall [' num2str(xmin) ', ' ... 
+    num2str(xmax) ']' char(10) ...
+    'Välj från menyn:'];
     
     val=menu(menytext,'Mata in ny funktion','Mata in nytt intervall', ...
     'Derivera numeriskt', 'Derivera symboliskt', ...
-    'Integrera numeriskt', 'Integrera symboliskt', 'Avsluta')
+    'Integrera numeriskt', 'Integrera symboliskt', 'Avsluta');
     % clf;    
     switch val
         case 7 
             running=0;
         case 1
-            funktion=input('Mata in ny funktion f(x):','s')
-            xmin=42
-         case 3
-            blob(20)
+            funktion=input('Mata in ny funktion f(x):','s');
+        case 2
+            xmin=input('Mata in xmin:');
+            xmax=input('Mata in xmax:');
         case 4
             elastisk_gubbe 
         otherwise
