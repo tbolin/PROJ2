@@ -6,7 +6,7 @@
 % snabbt att komma igång med experimenterandet
 %
 x=sym('x'); % Indikera att x ska hanteras som variabel
-funktion='3*x+2';
+funktion='3*x^2+2';
 
 xmin=0;
 xmax=100;
@@ -32,10 +32,16 @@ while running
         case 2
             xmin=input('Mata in xmin:');
             xmax=input('Mata in xmax:');
+        case 3
+            f(x)=sym(funktion); % Omvandla från sträng till körbar funktion
+            xplot = linspace(xmin, xmax, 2000); % Nog med punkter för en stor skärm...
+            ynum = derivera(f, xplot, 2);
+            plot(xplot,ynum);
         case 4
-            elastisk_gubbe 
-        otherwise
-            subval=100,
-    end 
+        case 5
+        case 6
+    end
+    
+    
 end
 close all % Stäng menyfönstret och figurfönstret
