@@ -35,7 +35,7 @@ while running
         case 3
             f(x)=sym(funktion); % Omvandla från sträng till körbar funktion
             xplot = linspace(xmin, xmax, 2000); % Nog med punkter för en stor skärm...
-            ynum = derivera(f, xplot, 2);
+            ynum = derivera_n(f, xmin, xmax, 2000);
             plot(xplot,ynum);
         case 4
         case 5
