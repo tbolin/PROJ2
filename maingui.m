@@ -1,23 +1,20 @@
 %
 % GUI och programmets huvudloop
 %
+clear; close all;
 
-% Sätt defaultvärden på funktion och intervall så det går 
-% snabbt att komma igång med experimenterandet
 %
-x=sym('x'); % Indikera att x ska hanteras som variabel
-funktion='3*x^2+2';
-
-xmin=0;
-xmax=100;
-
+% Skapa ett objekt med alla parametrar
+% (Defaultvärden sätts i classdef-filen)
+%
+p=parametrar;
 
 running=1;
 
 while running
     menytext = ['Numerisk och symbolisk derivering/integral' char(10) ...
-    'f(x)=' funktion char(10) 'Plotintervall [' num2str(xmin) ', ' ... 
-    num2str(xmax) ']' char(10) ...
+    'f(x)=' p.funktion char(10) 'Plotintervall [' num2str(p.xmin) ', ' ... 
+    num2str(p.xmax) ']' char(10) ...
     'Välj från menyn:'];
     
     val=menu(menytext,'Mata in ny funktion','Mata in nytt intervall', ...
@@ -28,14 +25,14 @@ while running
         case 7 
             running=0;
         case 1
-            funktion=input('Mata in ny funktion f(x):','s');
+            p.funktion=input('Mata in ny funktion f(x):','s');
         case 2
-            xmin=input('Mata in xmin:');
-            xmax=input('Mata in xmax:');
+            p.xmin=input('Mata in xmin:');
+            p.xmax=input('Mata in xmax:');
         case 3
-            f(x)=sym(funktion); % Omvandla från sträng till körbar funktion
-            xplot = linspace(xmin, xmax, 2000); % Nog med punkter för en stor skärm...
-            ynum = derivera(f, xplot, 2);
+            f(x)=sym(p.funktion); % Omvandla från sträng till körbar funktion
+            xplot = linspace(f, p.xmin, p.xmax, 2000); % Nog med punkter för en stor skärm...
+            ynum = derivera_n(f, p.xmin, p.xmax, 2000);
             plot(xplot,ynum);
         case 4
         case 5
