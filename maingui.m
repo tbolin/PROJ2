@@ -1,45 +1,56 @@
 %
 % GUI och programmets huvudloop
 %
-clear; close all;
+clear all; close all;
 
 %
 % Skapa ett objekt med alla parametrar
 % (Defaultvärden sätts i classdef-filen)
 %
-x=sym('x'); % Indikera att x ska hanteras som variabel.
-
 p=parametrar;
 x=sym('x'); % Indikera att x ska hanteras som variabel
 
 running=1;
 
 while running
-    menytext = ['Numerisk och symbolisk derivering/integral' char(10) ...
-    'f(x)=' p.funktion char(10) 'Plotintervall [' num2str(p.xmin) ', ' ... 
-    num2str(p.xmax) ']' char(10) ...
-    'Välj från menyn:'];
-    
-    val=menu(menytext,'Mata in ny funktion','Mata in nytt intervall', ...
-    'Derivera numeriskt', 'Derivera symboliskt', ...
-    'Integrera numeriskt', 'Integrera symboliskt', 'Avsluta');
-    % clf;    
+    val=enkel_meny(p);
     switch val
-        case 7 
-            running=0;
         case 1
-            p.funktion=input('Mata in ny funktion f(x):','s');
         case 2
-            p.xmin=input('Mata in xmin:');
-            p.xmax=input('Mata in xmax:');
         case 3
-            f(x)=sym(p.funktion); % Omvandla från sträng till körbar funktion
-            xplot = linspace(p.xmin, p.xmax, 2000); % Nog med punkter för en stor skärm...
-            ynum = derivera_n(f, p.xmin, p.xmax, 2000);
-            plot(xplot,ynum);
+            p.text='Deriverat numeriskt';
+            p.fx1handle = @derivera_n;
+            p.fxcount = 1; % Ingen jämförelse
+            rita(p, val);
         case 4
+            p.text='Deriverat analytiskt';
+            p.fx1handle = @derivera_a;
+            p.fxcount = 1; % Ingen jämförelse
+            rita(p, val);
         case 5
+            p.text='Integrerat numeriskt';
+            p.fx1handle = @integrera_n;
+            p.fxcount = 1; % Ingen jämförelse
+            rita(p, val);
         case 6
+            p.text='Integrerat analytiskt';
+            p.fx1handle = @integrera_a;
+            p.fxcount = 1; % Ingen jämförelse
+            rita(p, val);
+        case 7
+            p.text='Jämförelse numerisk/analytisk derivering';
+            p.fx1handle = @derivera_n;
+            p.fx2handle = @derivera_a;
+            p.fxcount = 2;
+            rita(p, val);           
+        case 8
+            p.text='Jämförelse numerisk/analytisk integrering';
+            p.fx1handle = @integrera_n;
+            p.fx2handle = @integrera_a;
+            p.fxcount = 2;
+            rita(p, val);
+        case 9 
+            running=0;
     end
     
     
