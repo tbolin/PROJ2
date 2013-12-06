@@ -4,6 +4,8 @@ classdef parametrar < handle    % 'handle' <-> klassen hanteras med
                                 
     % Ren dataklass med parametrar för ritjobbet, men ingen kod
     properties
+        meny = @enkel_meny;     % Enkel meny som default
+        rita = @rita;           % Enkel ritfunktion som default
         text='';                % Etikett för plotten
         funktion='3*x^2+2';     % Funktion att jobba med
         xmin = 0;               % minsta värde att undersöka
