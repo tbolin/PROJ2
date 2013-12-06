@@ -10,6 +10,7 @@ clear; close all;
 x=sym('x'); % Indikera att x ska hanteras som variabel.
 
 p=parametrar;
+x=sym('x'); % Indikera att x ska hanteras som variabel
 
 running=1;
 
