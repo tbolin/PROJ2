@@ -14,13 +14,14 @@ function menyval=enkel_meny(p)
     % Text överst i menyrutan, inklusive värden på parametrarna
     menytext = ['Numerisk och symbolisk derivering/integral' char(10) ...
     'f(x)=' p.funktion char(10) 'Plotintervall [' num2str(p.xmin) ', ' ... 
-    num2str(p.xmax) ']' char(10) ...
-    'Välj från menyn:'];
+    num2str(p.xmax) ']' char(10) 'Antal punkter ', num2str(p.xstep) ...
+    char(10) 'Välj från menyn:'];
     
     % Visa menyn och fråga efter val
     menyval=menu(menytext,'Mata in ny funktion','Mata in nytt intervall', ...
-    'Derivera numeriskt', 'Derivera symboliskt', ...
-    'Integrera numeriskt', 'Integrera symboliskt', 'Avsluta');
+    'Derivera numeriskt', 'Derivera analytiskt', ...
+    'Integrera numeriskt', 'Integrera analytiskt', ...
+    'Jämför n/a der', 'Jämför n/a integr', 'Avsluta');
 
     % Fråga efter parametrar i kommandofönstret vid behov.
     switch menyval
@@ -29,8 +30,5 @@ function menyval=enkel_meny(p)
         case 2
             p.xmin=input('Mata in xmin:');
             p.xmax=input('Mata in xmax:');
-        case 3
-        case 4
-        case 5
-        case 6
+            p.xstep=input('Mata in antal punkter att beräkna:');
 end
