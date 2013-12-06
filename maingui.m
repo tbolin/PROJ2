@@ -7,6 +7,8 @@ clear; close all;
 % Skapa ett objekt med alla parametrar
 % (Defaultvärden sätts i classdef-filen)
 %
+x=sym('x'); % Indikera att x ska hanteras som variabel.
+
 p=parametrar;
 x=sym('x'); % Indikera att x ska hanteras som variabel
 
