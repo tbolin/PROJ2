@@ -7,6 +7,8 @@ clear; close all;
 % Skapa ett objekt med alla parametrar
 % (Defaultvärden sätts i classdef-filen)
 %
+x=sym('x'); % Indikera att x ska hanteras som variabel.
+
 p=parametrar;
 
 running=1;
@@ -31,7 +33,7 @@ while running
             p.xmax=input('Mata in xmax:');
         case 3
             f(x)=sym(p.funktion); % Omvandla från sträng till körbar funktion
-            xplot = linspace(f, p.xmin, p.xmax, 2000); % Nog med punkter för en stor skärm...
+            xplot = linspace(p.xmin, p.xmax, 2000); % Nog med punkter för en stor skärm...
             ynum = derivera_n(f, p.xmin, p.xmax, 2000);
             plot(xplot,ynum);
         case 4
