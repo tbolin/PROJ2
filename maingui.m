@@ -5,9 +5,16 @@ clear all; close all;
 
 %
 % Skapa ett objekt med alla parametrar
-% (Defaultvärden sätts i classdef-filen)
 %
-p=parametrar;
+try
+    load('settings.mat'); % Försök läsa sparade värden
+catch
+    p=parametrar; % Ta defaultvärden från classdef-filen vid misslyckande
+end
+
+% Sätt upp enkelt gränssnitt som default
+s.meny = @enkel_meny;     % Enkel meny som default
+s.rita = @rita;           % Enkel ritfunktion som default
 
 % Indikera att x ska hanteras som analytisk/symbolisk variabel
 x=sym('x');
@@ -55,6 +62,8 @@ while running
             running=0;
     end
     
-    
+    % Spara parametervärden till nästa körning, så man slipper mata 
+    % in allt på nytt. (Väldigt bra när man testar och kraschar ;-)
+    save('settings.mat', 'p');
 end
 close all % Stäng menyfönstret och figurfönstret
