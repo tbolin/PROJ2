@@ -1,12 +1,12 @@
-function [ dy ] = derivera_a(f, a, b, n)
-% Beräknar derivatorna analytiskt
+function [ dy ] = derivera_a(f, a, b, n, varargin)
+% Berï¿½knar derivatorna analytiskt
 % IN
 % f symbolisk funktion i en variabel
-% a start för beräkningsintervallet
-% b slut för beräkningsintervallet
+% a start fï¿½r berï¿½kningsintervallet
+% b slut fï¿½r berï¿½kningsintervallet
 % n antalet punkter i intervallet
 % UT
-% dy vektor med de analytiskt beräknade derivatorna
+% dy vektor med de analytiskt berï¿½knade derivatorna
     x = linspace(a, b, n);
     der = diff(f);
     dy = vpa(der(x));
