@@ -30,38 +30,38 @@ while running
             p.text='Deriverat numeriskt';
             p.fx1handle = @derivera_n;
             p.fxcount = 1; % Ingen jämförelse
-            p.rita(p, val);
         case 4
             p.text='Deriverat analytiskt';
             p.fx1handle = @derivera_a;
             p.fxcount = 1; % Ingen jämförelse
-            p.rita(p, val);
         case 5
             p.text='Integrerat numeriskt';
             p.fx1handle = @integrera_n;
             p.fxcount = 1; % Ingen jämförelse
-            p.rita(p, val);
         case 6
             p.text='Integrerat analytiskt';
             p.fx1handle = @integrera_a;
             p.fxcount = 1; % Ingen jämförelse
-            p.rita(p, val);
         case 7
             p.text='Jämförelse numerisk/analytisk derivering';
             p.fx1handle = @derivera_n;
             p.fx2handle = @derivera_a;
-            p.fxcount = 2;
-            p.rita(p, val);           
+            p.fxcount = 2;      
         case 8
             p.text='Jämförelse numerisk/analytisk integrering';
             p.fx1handle = @integrera_n;
             p.fx2handle = @integrera_a;
             p.fxcount = 2;
-            p.rita(p, val);
         case 9
             running=0;
     end
-    
+    if running
+        try
+            p.rita(p, val);
+        catch err
+            math_error(err);
+        end
+    end
     % Spara parametervärden till nästa körning, så man slipper mata 
     % in allt på nytt. (Väldigt bra när man testar och kraschar ;-)
     save('settings.mat', 'p');
