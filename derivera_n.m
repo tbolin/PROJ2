@@ -1,4 +1,4 @@
-function dy = derivera_n(f, x, varargin)
+function [ dy ] = derivera_n(f, a, b, n, varargin)
 % Ber�knar derivatorna numeriskt
 % IN
 % f symbolisk funktion i en variabel
@@ -8,16 +8,17 @@ function dy = derivera_n(f, x, varargin)
 % varargin l�gesv�ljare mellan matlabfunc och symbolisk med vpa
 % UT
 % dy vektor med de numreriskt ber�knade derivatorna
-    if nargin <= 3
+
+    if nargin <= 4
         f = matlabFunction(f);
     end
-    intervall = x; %linspace(a,b,n);	% formaterar intervallet
+    intervall = linspace(a,b,n);	% formaterar intervallet
     start_steg = 1/(2^10);          % s�tter ett l�mpligt startsteg
     numeriskt = @numeriskt_exp4;    % v�ljer numerisk funktion
-    % Ber�knar en l�mplig stegl�ngd basserat p� 2:1 derivatan
+    % Ber�knar en l�mplig stegl�ngd basserat p� 2:a derivatan
     nytt_steg = start_steg./bis(f, intervall, start_steg); 
     berr = numeriskt(f, intervall, nytt_steg);
-    if nargin <= 3
+    if nargin <= 4
         dy = double(berr);
     else
         dy = vpa(berr);
@@ -27,27 +28,10 @@ end
 function ddy=bis(f, a, h)
     % Ber�knar andraderivata
     andra = (f(a+h)-2*f(a)+f(a-h))./(h.^2);
-    try
     if double(andra)
         ddy=andra;
     else
         ddy=0.00000000001;
-    end
-    % Felhantering f�r nolldivision, kanske borde ligga h�gre upp i
-    % hierarkin
-    catch err
-        if (strcmp(err.identifier, 'MATLAB:nologicalnan')) && ~all(a)
-            smallest = 2^(-1022);
-            sprintf(['WARNING! Division by zero. \n Adjusting zero elements to ', num2str(smallest)])
-            for i=1:length(a)
-                if ~a(i)
-                    a(i) = smallest;
-                end
-            end
-            ddy = bis(f, a, h);
-        else
-            rethrow(err);
-        end 
     end
 end
 

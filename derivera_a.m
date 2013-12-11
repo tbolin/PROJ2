@@ -1,4 +1,4 @@
-function [ dy ] = derivera_a(f, x, vararg)
+function [ dy ] = derivera_a(f, a, b, n, varargin)
 % Ber�knar derivatorna analytiskt
 % IN
 % f symbolisk funktion i en variabel
@@ -7,7 +7,7 @@ function [ dy ] = derivera_a(f, x, vararg)
 % n antalet punkter i intervallet
 % UT
 % dy vektor med de analytiskt ber�knade derivatorna
-    %x = linspace(a, b, n);
+    x = linspace(a, b, n);
     der = diff(f);
     dy = vpa(der(x));
 end
