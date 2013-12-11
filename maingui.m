@@ -55,6 +55,7 @@ while running
         case 9
             running=0;
     end
+    % ritar kurvorna samt fångar ev fel
     if running
         try
             p.rita(p, val);
