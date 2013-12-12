@@ -8,5 +8,6 @@ function [ py ] = integrera_a(f, a, b, n)
 % UT
 % py vektor med de analytiskt ber�knade integralerna
     x = linspace(a, b, n);
-    py = vpa(int(f(x)));
+    prim = int(f);
+    py = vpa(prim(x));
 end
