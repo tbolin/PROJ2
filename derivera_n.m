@@ -1,32 +1,32 @@
-function dy = derivera_n(f, a, b, n, varargin)
-% Beräknar derivatorna numeriskt
+function [ dy ] = derivera_n(f, a, b, n, varargin)
+% Berï¿½knar derivatorna numeriskt
 % IN
 % f symbolisk funktion i en variabel
-% a start för beräkningsintervallet
-% b slut för beräkningsintervallet
+% a start fï¿½r berï¿½kningsintervallet
+% b slut fï¿½r berï¿½kningsintervallet
 % n antalet punkter i intervallet
-% varargin lägesväljare mellan matlabfunc och symbolisk med vpa
+% varargin lï¿½gesvï¿½ljare mellan matlabfunc och symbolisk med vpa
 % UT
-% dy vektor med de numreriskt beräknade derivatorna
+% dy vektor med de numreriskt berï¿½knade derivatorna
+
     if nargin <= 4
         f = matlabFunction(f);
     end
     intervall = linspace(a,b,n);	% formaterar intervallet
-    start_steg = 1/(2^10);          % sätter ett lämpligt startsteg
-    numeriskt = @numeriskt_exp4;    % väljer numerisk funktion
-    % Beräknar en lämplig steglängd
-    %prel_berr = numeriskt(f, intervall, start_steg);
-    nytt_steg = start_steg./bis(f, intervall, start_steg);  %justerar steglängd beroende på 2:a derivatan
-    ny_berr = numeriskt(f, intervall, nytt_steg);
+    start_steg = 1/(2^10);          % sï¿½tter ett lï¿½mpligt startsteg
+    numeriskt = @numeriskt_exp4;    % vï¿½ljer numerisk funktion
+    % Berï¿½knar en lï¿½mplig steglï¿½ngd basserat pï¿½ 2:a derivatan
+    nytt_steg = start_steg./bis(f, intervall, start_steg); 
+    berr = numeriskt(f, intervall, nytt_steg);
     if nargin <= 4
-        dy = double(ny_berr);
+        dy = double(berr);
     else
-        dy = vpa(ny_berr);
+        dy = vpa(berr);
     end
 end
 
 function ddy=bis(f, a, h)
-    % Beräknar andraderivata
+    % Berï¿½knar andraderivata
     andra = (f(a+h)-2*f(a)+f(a-h))./(h.^2);
     if double(andra)
         ddy=andra;
@@ -35,7 +35,9 @@ function ddy=bis(f, a, h)
     end
 end
 
-% v RichardsonextrMAGI be here v
+%
+% RichardsonextrMAGI be here, borde ge ett fel prop mot h^10
+% Inte sï¿½ snyggt, gï¿½r om till en rekursiv funktion om/nï¿½r jag orkar
 function dy=numeriskt_exp(f, a, h)
     dy = (2*f(a+2*h)-2*f(a-2*h)-f(a+h)+f(a-h))./(2*h*(4-1));
 end
@@ -51,7 +53,7 @@ end
 function dy=numeriskt_exp4(f, a, h)
     dy=(64*numeriskt_exp3(f, a, h/2)-numeriskt_exp3(f, a, h))/(64-1);
 end
-% vildvittror drakar och gråsuggor
+% vildvittror drakar och grï¿½suggor
 
 
 

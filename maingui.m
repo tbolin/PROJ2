@@ -1,45 +1,70 @@
 %
 % GUI och programmets huvudloop
 %
-clear; close all;
+clear all; close all;
 
 %
 % Skapa ett objekt med alla parametrar
-% (Defaultvärden sätts i classdef-filen)
 %
-p=parametrar;
-x=sym('x'); % Indikera att x ska hanteras som variabel
+try
+    load('settings.mat'); % Försök läsa sparade värden
+catch
+    p=parametrar; % Ta defaultvärden från classdef-filen vid misslyckande
+end
+
+% Sätt upp enkelt gränssnitt som default
+s.meny = @enkel_meny;     % Enkel meny som default
+s.rita = @rita;           % Enkel ritfunktion som default
+
+% Indikera att x ska hanteras som analytisk/symbolisk variabel
+x=sym('x');
 
 running=1;
 
 while running
-    menytext = ['Numerisk och symbolisk derivering/integral' char(10) ...
-    'f(x)=' p.funktion char(10) 'Plotintervall [' num2str(p.xmin) ', ' ... 
-    num2str(p.xmax) ']' char(10) ...
-    'Välj från menyn:'];
-    
-    val=menu(menytext,'Mata in ny funktion','Mata in nytt intervall', ...
-    'Derivera numeriskt', 'Derivera symboliskt', ...
-    'Integrera numeriskt', 'Integrera symboliskt', 'Avsluta');
-    % clf;    
+    val=p.meny(p);
     switch val
-        case 7 
-            running=0;
         case 1
-            p.funktion=input('Mata in ny funktion f(x):','s');
         case 2
-            p.xmin=input('Mata in xmin:');
-            p.xmax=input('Mata in xmax:');
         case 3
-            f(x)=sym(p.funktion); % Omvandla från sträng till körbar funktion
-            xplot = linspace(p.xmin, p.xmax, 2000); % Nog med punkter för en stor skärm...
-            ynum = derivera_n(f, p.xmin, p.xmax, 2000);
-            plot(xplot,ynum);
+            p.text='Deriverat numeriskt';
+            p.fx1handle = @derivera_n;
+            p.fxcount = 1; % Ingen jämförelse
         case 4
+            p.text='Deriverat analytiskt';
+            p.fx1handle = @derivera_a;
+            p.fxcount = 1; % Ingen jämförelse
         case 5
+            p.text='Integrerat numeriskt';
+            p.fx1handle = @integrera_n;
+            p.fxcount = 1; % Ingen jämförelse
         case 6
+            p.text='Integrerat analytiskt';
+            p.fx1handle = @integrera_a;
+            p.fxcount = 1; % Ingen jämförelse
+        case 7
+            p.text='Jämförelse numerisk/analytisk derivering';
+            p.fx1handle = @derivera_n;
+            p.fx2handle = @derivera_a;
+            p.fxcount = 2;      
+        case 8
+            p.text='Jämförelse numerisk/analytisk integrering';
+            p.fx1handle = @integrera_n;
+            p.fx2handle = @integrera_a;
+            p.fxcount = 2;
+        case 9
+            running=0;
     end
-    
-    
+    % ritar kurvorna samt f�ngar ev fel
+    if running
+        try
+            p.rita(p, val);
+        catch err
+            math_error(err);
+        end
+    end
+    % Spara parametervärden till nästa körning, så man slipper mata 
+    % in allt på nytt. (Väldigt bra när man testar och kraschar ;-)
+    save('settings.mat', 'p');
 end
 close all % Stäng menyfönstret och figurfönstret
