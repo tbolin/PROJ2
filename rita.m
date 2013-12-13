@@ -38,14 +38,17 @@ function fel=rita(p, menyval)
         % Skapa logisk vektor, dvs 1 om sant annars 0
         felpunkter = fel > ((p.feltr * (max(y1) - min(y1)))^2);
 
-        % 
+        %
+        % Sök upp de delar av kurvorna som skiljer synbart och visa
+        % hur andra kurvan skiljer sig från den första
+        %
         ptr1 = 1;
         while ptr1 <= length(felpunkter)
-            %  Flytta i till första felpunkt i raden
+            %  Flytta ptr till första felpunkt i raden
             ptr1 = ptr1 - 1 + find(felpunkter(ptr1:end) ~= 0, 1);
-            % Om ingen hittad, peka på vektorns slut
-            if isscalar(ptr1) == 0, ptr1=length(felpunkter); end
-                        
+            % Om ingen hittad, avbryt eftersom det inte finns fler fel
+            if isscalar(ptr1) == 0, break; end
+
             % Hitta sista felpunkt i raden. Justera för slut på vektorn!
             ptr2 = ptr1 - 1 + find(felpunkter(ptr1:end) == 0, 1) - 1;
             if isscalar(ptr2) == 0, ptr2=length(felpunkter); end
