@@ -16,14 +16,14 @@ function fel=rita(p, menyval)
     y1 = p.fx1handle(f, p.xmin, p.xmax, p.xstep);    
 
     if p.fxcount == 1 % Bara en funktion. Plotta den utan konstigheter!
-        plot(x1, y1);
+        plot(x1, y1, 'LineSmoothing','on');
         title([p.text ' f(x)=' p.funktion]);
     
     else % Finns en funktion att jämföra med --> visualisera felet
         
         % Plotta första kurvan i grönt som referens
         subplot(2, 1, 1);
-        plot(x1, y1, 'g');
+        plot(x1, y1, 'g', 'LineSmoothing','on');
         title([p.text ' f(x)=' p.funktion]);
         hold on;
 
@@ -52,11 +52,11 @@ function fel=rita(p, menyval)
             if ptr2 < ptr1, ptr2=length(felpunkter); end
 
             % Plotta y2 i rött, bitarna som skiljer sig synbart från y1
-            plot(x1(ptr1:ptr2), y2(ptr1:ptr2), 'r');
+            plot(x1(ptr1:ptr2), y2(ptr1:ptr2), 'r', 'LineSmoothing','on');
             
             % Om felet är enstaka punkter, plotta även en röd markör
             if abs(ptr1-ptr2) < p.feltr
-                plot(x1(ptr1:ptr2), y2(ptr1:ptr2), 'r*');
+                plot(x1(ptr1:ptr2), y2(ptr1:ptr2), 'r*', 'LineSmoothing','on');
             end
 
             % Flytta ptr1 till nästa bit av vektorn som bör kollas
@@ -65,7 +65,7 @@ function fel=rita(p, menyval)
         
         % Plotta felet 
         subplot(2, 1, 2);
-        plot(x1, fel, 'c');
+        plot(x1, fel, 'c', 'LineSmoothing','on');
         title(['Fel^2 mellan numerisk och analytisk beräkning av' ' f(x)=' p.funktion]);
     end
     
