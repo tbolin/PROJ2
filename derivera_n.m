@@ -26,13 +26,11 @@ function [ dy ] = derivera_n(f, a, b, n, varargin)
 end
 
 function ddy=bis(f, a, h)
-    % Ber�knar andraderivata
+    % Beräknar andraderivata
     andra = (f(a+h)-2*f(a)+f(a-h))./(h.^2);
-    if double(andra)
-        ddy=andra;
-    else
-        ddy=0.00000000001;
-    end
+    % ser till att inga element är 0
+    ddy = andra + (~andra).*f(a) +(~andra).*(~f(a)).*0.00001;
+    % ~ är logiskt icke, dvs ~0=1 och allt annat blir 0
 end
 
 %
