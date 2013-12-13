@@ -46,23 +46,29 @@ while running
             p.text='Jämförelse numerisk/analytisk derivering';
             p.fx1handle = @derivera_n;
             p.fx2handle = @derivera_a;
-            p.fxcount = 2;      
+            p.fxcount = 2; % Jämför två    
         case 8
             p.text='Jämförelse numerisk/analytisk integrering';
             p.fx1handle = @integrera_n;
             p.fx2handle = @integrera_a;
-            p.fxcount = 2;
+            p.fxcount = 2; % Jämför två
         case 9
             running=0;
     end
-    % ritar kurvorna samt f�ngar ev fel
-    if running
+    
+    % ritar kurvorna samt fångar ev fel
+    if p.fxcount  % Finns några funktioner att rita?
         try
             p.rita(p, val);
         catch err
             math_error(err);
         end
+        
+        p.fxcount = 0; % Markera inget nytt kvar att rita
     end
+
+
+    
     % Spara parametervärden till nästa körning, så man slipper mata 
     % in allt på nytt. (Väldigt bra när man testar och kraschar ;-)
     save('settings.mat', 'p');
