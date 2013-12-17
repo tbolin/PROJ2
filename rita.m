@@ -36,6 +36,10 @@ function fel=rita(p, menyval)
         % sammanfaller i plotten
         
         % Skapa logisk vektor, dvs 1 om sant annars 0
+        % Felpunkter anses vara punkter där y(x) avviker mer än tröskeln
+        % p.feltr från den andra funktionen. (Jämförelsen tar hänsyn 
+        % till att felet beräknats som en kvadrat, medan tröskeln är 
+        % linjär.)
         felpunkter = fel > ((p.feltr * (max(y1) - min(y1)))^2);
 
         %
@@ -57,9 +61,10 @@ function fel=rita(p, menyval)
             % Plotta y2 i rött, bitarna som skiljer sig synbart från y1
             plot(x1(ptr1:ptr2), y2(ptr1:ptr2), 'r', 'LineSmoothing','on');
             
-            % Om felet är enstaka punkter, plotta även en röd markör
-            if abs(ptr1-ptr2) < p.feltr
-                plot(x1(ptr1:ptr2), y2(ptr1:ptr2), 'r*', 'LineSmoothing','on');
+            % Om felet är ett fåtal punkter, plotta även en röd markör
+            if abs(ptr1-ptr2) < p.feltr * abs(p.xmax - p.xmin)
+                felpunkt = ptr1+round((ptr2-ptr1)/2); % Hitta mitten
+                plot(x1(felpunkt), y2(felpunkt), 'r*', 'LineSmoothing','on');
             end
 
             % Flytta ptr1 till nästa bit av vektorn som bör kollas
