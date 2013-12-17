@@ -60,6 +60,8 @@ function fel=rita(p, menyval)
 
             % Plotta y2 i rött, bitarna som skiljer sig synbart från y1
             plot(x1(ptr1:ptr2), y2(ptr1:ptr2), 'r', 'LineSmoothing','on');
+            legend('Numerisk beräkning (används som referenskurva)', ...
+                'Analytisk beräkning när den skiljer synbart från numeriska');
             
             % Om felet är ett fåtal punkter, plotta även en röd markör
             if abs(ptr1-ptr2) < p.feltr * abs(p.xmax - p.xmin)
