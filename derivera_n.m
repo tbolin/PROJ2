@@ -14,9 +14,9 @@ function [ dy ] = derivera_n(f, a, b, n, varargin)
     end
     intervall = linspace(a,b,n);	% formaterar intervallet
     start_steg = 1/(2^10);          % sätter ett lämpligt startsteg
-    numeriskt = @numeriskt_exp4;    % väljer numerisk funktion
+    numeriskt = @numeriskt_exp;    % väljer numerisk funktion
     % Beräknar en lämplig steglängd basserat mha 2:a derivatan
-    nytt_steg = start_steg./bis(f, intervall, start_steg); 
+    nytt_steg = start_steg./bis(f, intervall, start_steg);
     berr = numeriskt(f, intervall, nytt_steg);
     if nargin <= 4
         dy = double(berr);
@@ -29,8 +29,8 @@ function ddy=bis(f, a, h)
     % Beräknar andraderivata
     andra = (f(a+h)-2*f(a)+f(a-h))./(h.^2);
     % ser till att inga element är = 0
-    is_zero = (~double(andra));
-    ddy = andra + is_zero;
+    is_low = (abs(double(andra)) <= 1/2^4);
+    ddy = andra + is_low;
     % ~ är logiskt icke, dvs ~0=1 och allt annat blir 0
 end
 
