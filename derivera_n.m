@@ -8,15 +8,15 @@ function [ dy ] = derivera_n(f, a, b, n, varargin)
 % varargin l√§gesv√§ljare mellan matlabfunc och symbolisk med vpa
 % UT
 % dy vektor med de numeriskt ber√§knade derivatorna
-
+    STEP_N = 2^10;
     if nargin <= 4
         f = matlabFunction(f);
     end
     intervall = linspace(a,b,n);	% formaterar intervallet
-    start_steg = 1/(2^10);          % s√§tter ett l√§mpligt startsteg
-    numeriskt = @numeriskt_exp;    % v√§ljer numerisk funktion
+    start_steg = max(abs(intervall), 2^(-1000))/(STEP_N);          % s√§tter ett l√§mpligt startsteg
+    numeriskt = @numeriskt_exp4;    % v√§ljer numerisk funktion
     % Ber√§knar en l√§mplig stegl√§ngd basserat mha 2:a derivatan
-    nytt_steg = start_steg./bis(f, intervall, start_steg);
+    nytt_steg = calc_step(f, intervall, start_steg, STEP_N);
     berr = numeriskt(f, intervall, nytt_steg);
     if nargin <= 4
         dy = double(berr);
@@ -25,13 +25,17 @@ function [ dy ] = derivera_n(f, a, b, n, varargin)
     end
 end
 
-function ddy=bis(f, a, h)
-    % Ber√§knar andraderivata
-    andra = (f(a+h)-2*f(a)+f(a-h))./(h.^2);
-    % ser till att inga element √§r = 0
-    is_low = (abs(double(andra)) <= 1/2^4);
-    ddy = andra + is_low;
-    % ~ √§r logiskt icke, dvs ~0=1 och allt annat blir 0
+function step=calc_step(f, a, h, STEP_N)
+    % Ber√§knar l√§mplig stegl√§ngd
+
+    % Skillnaden mellan stegets storlek och inv‰rdet fÂr inte vara fˆr stor
+    % efter som det dÂ leder till cancelation
+    a_step = abs(a/STEP_N);
+    % steget bˆr inte heller vara stˆrre ‰n v‰rdet av funktionen i a
+    % bland annat triggfunktioner kan fÂ problem dÂ.
+    abs_f = abs(f(a))/STEP_N;
+    % 2^(-1000) ‰r d‰r fˆr att undvika att steget blir 0
+    step = min(max(a_step, 2^(-1000)), abs_f);
 end
 
 %
