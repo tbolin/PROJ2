@@ -10,8 +10,5 @@ function [ py ] = integrera_a(f, a, b, n)
     x = linspace(a, b, n);
     prim = int(f);
     py = vpa(prim(x));
-<<<<<<< HEAD
     %py = vpa(prim(x)-prim(a));
-=======
->>>>>>> master
 end
