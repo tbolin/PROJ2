@@ -7,6 +7,7 @@ function py = integrera_n(f, a, b, n, varargin)
 % n antalet punkter i intervallet
 % UT
 % py vektor med de numreriskt berï¿½knade integralerna
+<<<<<<< HEAD
     syms k;
     h = (b-a)/(n);                  % h = steglängden
     f = matlabFunction(f);
@@ -27,4 +28,14 @@ function py = integrera_n(f, a, b, n, varargin)
     end
 end
 % "vildvittror drakar och grï¿½suggor" - ï¿½ Tobias
+=======
+    %py = zeros(1,n)
+    syms k;
+    h = (b-a)/(n);                    % h = steglängden 
+    for N = [1:1:n],
+        py(N) = vpa(h*symsum((f(a+(k-1)*h)+f(a+(k-1)*h +h))/2, k, 1, N)); %trapetsregeln
+    end
+end
+% "vildvittror drakar och gråsuggor" - ï¿½ Tobias
+>>>>>>> master
 
